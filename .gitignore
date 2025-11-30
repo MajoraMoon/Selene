@@ -1,0 +1,15 @@
+build/
+
+.idea/
+.vscode/
+
+/bin/*
+
+/bin/libs/
+
+.cache/
+
+.clang-format
+.clangd
+
+.zed
