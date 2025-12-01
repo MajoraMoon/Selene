@@ -8,13 +8,26 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# exetuable directory (later load textures etc outside of executable)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
 # Dependencies (in Core/lib)
 # include(Dependencies_lib.cmake)
 
-include_directories(${PROJECT_SOURCE_DIR}/Core/lib)
-
 add_subdirectory(Core)
 add_subdirectory(Selene)
+
+
+add_custom_target(copy_bin ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Selene${CMAKE_EXECUTABLE_SUFFIX}
+        ${CMAKE_SOURCE_DIR}/bin/
+    COMMENT "Copying executable to ${CMAKE_SOURCE_DIR}/bin/"
+    DEPENDS Selene
+)
+
 
 message(STATUS "")
 message(STATUS "Configuration Summary:")
